@@ -90,6 +90,7 @@ async function getRepoDiff(
     );
 
     const profilePicMap = commits.reduce((acc, commit) => {
+      //eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       acc[commit.author.login] = commit.author.avatar_url;
       return acc;
@@ -126,8 +127,9 @@ async function generateChangelog(
   }
 
   const profilePics = Object.keys(profilePicMap).reduce((accumulate, key) => {
-    return (accumulate +=
-      "\n" + "user:" + key + "  profile picture:" + profilePicMap[key]);
+    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    return (accumulate += "\n" + "user:" + key + "  profile picture:" + profilePicMap[key]);
   }, "");
 
   try {

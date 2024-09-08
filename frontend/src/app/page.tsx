@@ -2,15 +2,23 @@
 
 import { useState } from "react";
 import { generateChangelogForGreptileDocs } from "./backendInFrontend";
+import ReactMarkdown from "react-markdown";
 
 const GithubUrlForm = () => {
   const [url, setUrl] = useState("");
+  const [changelog, setChangelog] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setChangelog("");
     e.preventDefault();
     // Handle the submission logic here
     console.log("Submitted URL:", url);
-    await generateChangelogForGreptileDocs();
+    setIsLoading(true);
+    const generatedChangelog = await generateChangelogForGreptileDocs();
+    setChangelog(generatedChangelog || "Failed to generate changelog");
+    console.log("Generated Changelog:", generatedChangelog);
+    setIsLoading(false);
   };
 
   return (
@@ -32,6 +40,12 @@ const GithubUrlForm = () => {
           Submit
         </button>
       </form>
+      {isLoading && <p className="dark:text-white">Loading...</p>}
+      {changelog && (
+        <div className="dark:text-white prose prose-sm">
+          <ReactMarkdown>{changelog}</ReactMarkdown>
+        </div>
+      )}
     </div>
   );
 };

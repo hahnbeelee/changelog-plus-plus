@@ -150,8 +150,7 @@ export async function generateChangelogForGreptileDocs() {
       2
     );
     const changelog = await generateChangelog(repoDiffResult.diffs);
-    console.log("Generated Changelog for helicone/helicone:");
-    console.log(changelog);
+    return changelog;
   } catch (error) {
     console.error("Error generating changelog for greptileai/docs:", error);
   }

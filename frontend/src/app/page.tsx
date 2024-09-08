@@ -37,10 +37,6 @@ const GithubUrlForm = () => {
               <button className='btn-primary bg-green-600 p-5 rounded-2xl'
                       onClick={() => setUrl("https://github.com/facebook/react")}>ReactJS
               </button>
-
-              <button className='btn-primary bg-green-600 p-5 rounded-2xl'
-                      onClick={() => setUrl("https://github.com/meta-llama/llama")}>Llama
-              </button>
           </div>
 
           <form

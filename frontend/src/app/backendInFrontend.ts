@@ -168,7 +168,7 @@ export async function generateChangelogForGreptileDocs(url: string) {
     try {
         const repoDiffResult = await getRepoDiff(
             `https://github.com/${owner}/${repo}`,
-            7
+            2
         );
         console.log(repoDiffResult.diffs);
         const changelog = await generateChangelog(repoDiffResult.diffs, repo, owner);

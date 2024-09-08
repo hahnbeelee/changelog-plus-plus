@@ -42,7 +42,7 @@ const GithubUrlForm = () => {
       </form>
       {isLoading && <p className="dark:text-white">Loading...</p>}
       {changelog && (
-        <div className="dark:text-gray-400 prose prose-sm">
+        <div className="dark:text-gray-400 prose prose-sm dark:prose-invert">
           <ReactMarkdown>{changelog}</ReactMarkdown>
         </div>
       )}

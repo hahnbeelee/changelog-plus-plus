@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 const GithubUrlForm = () => {
   const [url, setUrl] = useState("");
-  const [days, setDays] = useState(0);
+  const [days, setDays] = useState(7);
   const [changelog, setChangelog] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 

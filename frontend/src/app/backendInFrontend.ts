@@ -34,6 +34,7 @@ async function getRepoDiff(
     deletions: number;
     netDiff: number;
     diffs: string[];
+    profilePicMap: object
 }> {
     const [owner, repo] = repoUrl.split("/").slice(-2);
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits`;
@@ -82,7 +83,15 @@ async function getRepoDiff(
         const netDiff = totals.additions - totals.deletions;
 
         const diffs = commits.flatMap((commit) =>
-            commit.files.map((file) => `Author: ${commit.author.login}. Author Profile Picture URL: ${commit.author.avatar_url}. File: ${file.filename}\n${file.patch}`)
+            commit.files.map((file) => `Author: ${commit.author.login}. File: ${file.filename}\n${file.patch}`)
+        );
+
+        const profilePicMap = commits.reduce(
+            (acc, commit) => {
+                acc[commit.author.login] = commit.author.avatar_url;
+                return acc;
+            },
+            {}
         );
 
         return {
@@ -90,6 +99,7 @@ async function getRepoDiff(
             deletions: totals.deletions,
             netDiff,
             diffs,
+            profilePicMap
         };
     } catch (error) {
         console.error("Error fetching repository data:", error);
@@ -97,7 +107,7 @@ async function getRepoDiff(
     }
 }
 
-async function generateChangelog(diffs: string[], repo: string, owner: string): Promise<string> {
+async function generateChangelog(diffs: string[], profilePicMap: object, repo: string, owner: string): Promise<string> {
     const greptileApiKey = process.env.NEXT_PUBLIC_GREPTILE_API_KEY;
     const githubToken = process.env.NEXT_PUBLIC_GITHUB_PAT;
 
@@ -109,6 +119,11 @@ async function generateChangelog(diffs: string[], repo: string, owner: string): 
         throw new Error("GitHub token is missing");
     }
 
+
+    const profilePics = Object.keys(profilePicMap).reduce((accumulate, key)=> {
+        return accumulate += '\n' + 'user:' + key + '  profile picture:' + profilePicMap[key];
+    }, '')
+
     try {
         const queryPayload = {
             messages: [
@@ -116,7 +131,7 @@ async function generateChangelog(diffs: string[], repo: string, owner: string): 
                     content: `Generate a concise changelog based on the following diffs. 
                               Make sure to group the changes by each developer with their profile picture in markdown: ${diffs.join(
                         "\n\n"
-                    )}`,
+                    )} Here is a map of all the developer profile pictures:` + profilePics,
                     role: "user",
                 },
             ],
@@ -156,7 +171,6 @@ async function generateChangelog(diffs: string[], repo: string, owner: string): 
 }
 
 export async function generateChangelogForGreptileDocs(url: string, days: number) {
-
     const tokens = url.split('/');
     const repo = tokens.pop();
     const owner = tokens.pop();
@@ -164,18 +178,15 @@ export async function generateChangelogForGreptileDocs(url: string, days: number
     if (!repo || !owner) {
         return;
     }
-
-
-
-  try {
-    const repoDiffResult = await getRepoDiff(
-      `https://github.com/${owner}/${repo}`,
-      days
-    );
-    console.log(repoDiffResult.diffs);
-    const changelog = await generateChangelog(repoDiffResult.diffs, repo, owner);
-    return changelog;
-  } catch (error) {
-    console.error("Error generating changelog for greptileai/docs:", error);
-  }
+    try {
+        const repoDiffResult = await getRepoDiff(
+            `https://github.com/${owner}/${repo}`,
+            days
+        );
+        console.log(repoDiffResult.diffs);
+        const changelog = await generateChangelog(repoDiffResult.diffs, repoDiffResult.profilePicMap, repo, owner);
+        return changelog;
+    } catch (error) {
+        console.error("Error generating changelog for greptileai/docs:", error);
+    }
 }

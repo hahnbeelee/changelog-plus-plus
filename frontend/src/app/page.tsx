@@ -4,6 +4,7 @@ import { useState } from "react";
 import { generateChangelogForGreptileDocs } from "./backendInFrontend";
 import ReactMarkdown from "react-markdown";
 
+
 const GithubUrlForm = () => {
   const [url, setUrl] = useState("");
   const [days, setDays] = useState(0)
@@ -52,7 +53,11 @@ const GithubUrlForm = () => {
       {isLoading && <p className="dark:text-white">Loading...</p>}
       {changelog && (
         <div className="dark:text-gray-400 prose prose-sm dark:prose-invert">
-          <ReactMarkdown>{changelog}</ReactMarkdown>
+          <ReactMarkdown components={{
+            img: function(props) {
+              return <img {...props} style={{width: '50px', height: '50px'}} />
+            }
+          }}>{changelog}</ReactMarkdown>
         </div>
       )}
     </div>

@@ -26,7 +26,7 @@ const GithubUrlForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full max-w-lg">
+    <div className="flex flex-col items-center gap-4 w-full max-w-lg p-3">
       <img src="/logo.png" alt="changelog++" className="w-full" />
       <form
         onSubmit={handleSubmit}

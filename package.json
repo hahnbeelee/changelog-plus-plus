@@ -4,5 +4,11 @@
   "main": "index.js",
   "repository": "https://github.com/hahnbeelee/changelog-plus-plus.git",
   "author": "Hahnbee Lee <55263191+hahnbeelee@users.noreply.github.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "changelog": "index.js"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
 }

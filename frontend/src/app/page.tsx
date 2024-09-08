@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 const GithubUrlForm = () => {
   const [url, setUrl] = useState("");
+  const [days, setDays] = useState(0)
   const [changelog, setChangelog] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +16,7 @@ const GithubUrlForm = () => {
     // Handle the submission logic here
     console.log("Submitted URL:", url);
     setIsLoading(true);
-    const generatedChangelog = await generateChangelogForGreptileDocs(url);
+    const generatedChangelog = await generateChangelogForGreptileDocs(url, days);
     setChangelog(generatedChangelog || "Failed to generate changelog");
     console.log("Generated Changelog:", generatedChangelog);
     setIsLoading(false);
@@ -30,6 +31,14 @@ const GithubUrlForm = () => {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter GitHub URL"
+          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+          required
+        />
+        <input
+          type='number'
+          value={days}
+          onChange={(e) => setDays(parseInt(e.target.value))}
+          placeholder="Enter days"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           required
         />

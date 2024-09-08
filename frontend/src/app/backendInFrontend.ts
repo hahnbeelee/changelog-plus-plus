@@ -155,7 +155,7 @@ async function generateChangelog(diffs: string[], repo: string, owner: string): 
     }
 }
 
-export async function generateChangelogForGreptileDocs(url: string) {
+export async function generateChangelogForGreptileDocs(url: string, days: number) {
 
     const tokens = url.split('/');
     const repo = tokens.pop();
@@ -165,15 +165,17 @@ export async function generateChangelogForGreptileDocs(url: string) {
         return;
     }
 
-    try {
-        const repoDiffResult = await getRepoDiff(
-            `https://github.com/${owner}/${repo}`,
-            2
-        );
-        console.log(repoDiffResult.diffs);
-        const changelog = await generateChangelog(repoDiffResult.diffs, repo, owner);
-        return changelog;
-    } catch (error) {
-        console.error("Error generating changelog for greptileai/docs:", error);
-    }
+
+
+  try {
+    const repoDiffResult = await getRepoDiff(
+      `https://github.com/${owner}/${repo}`,
+      days
+    );
+    console.log(repoDiffResult.diffs);
+    const changelog = await generateChangelog(repoDiffResult.diffs, repo, owner);
+    return changelog;
+  } catch (error) {
+    console.error("Error generating changelog for greptileai/docs:", error);
+  }
 }

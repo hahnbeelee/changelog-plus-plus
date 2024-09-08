@@ -1,4 +1,4 @@
 # changelog-plus-plus
 link to the app - https://changelog-plus-plus.vercel.app
 
-![photo](MintlifyHackathon.png) 
+![photo](MintlifyHacathon.png) 

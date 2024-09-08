@@ -92,8 +92,7 @@ async function generateChangelog(diffs: string[]): Promise<string> {
     const queryPayload = {
       messages: [
         {
-          // content: `Generate a concise changelog based on the following diffs: ${diffs.join('\n\n')}`,
-          content: `Say "HELLO WORLD"`,
+          content: `Generate a concise changelog based on the following diffs: ${diffs.join('\n\n')}`,
           role: "user"
         }
       ],

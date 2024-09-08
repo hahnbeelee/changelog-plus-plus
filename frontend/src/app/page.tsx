@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { generateChangelogForGreptileDocs } from "./backendInFrontend";
 
 const GithubUrlForm = () => {
   const [url, setUrl] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle the submission logic here
     console.log("Submitted URL:", url);
+    await generateChangelogForGreptileDocs();
   };
 
   return (

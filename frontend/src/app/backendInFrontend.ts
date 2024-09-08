@@ -90,9 +90,10 @@ async function getRepoDiff(
     );
 
     const profilePicMap = commits.reduce((acc, commit) => {
+      //@ts-ignore
       acc[commit.author.login] = commit.author.avatar_url;
       return acc;
-    }, {});
+    }, {} as object);
 
     return {
       additions: totals.additions,

@@ -15,7 +15,7 @@ const GithubUrlForm = () => {
     // Handle the submission logic here
     console.log("Submitted URL:", url);
     setIsLoading(true);
-    const generatedChangelog = await generateChangelogForGreptileDocs();
+    const generatedChangelog = await generateChangelogForGreptileDocs(url);
     setChangelog(generatedChangelog || "Failed to generate changelog");
     console.log("Generated Changelog:", generatedChangelog);
     setIsLoading(false);
@@ -30,7 +30,7 @@ const GithubUrlForm = () => {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter GitHub URL"
-          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           required
         />
         <button

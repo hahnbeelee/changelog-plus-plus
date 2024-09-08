@@ -87,7 +87,7 @@ async function getRepoDiff(
   }
 }
 
-async function generateChangelog(diffs: string[]): Promise<string> {
+async function generateChangelog(diffs: string[], repo: string, owner:string): Promise<string> {
   const greptileApiKey = process.env.NEXT_PUBLIC_GREPTILE_API_KEY;
   const githubToken = process.env.NEXT_PUBLIC_GITHUB_PAT;
 
@@ -112,7 +112,7 @@ async function generateChangelog(diffs: string[]): Promise<string> {
       repositories: [
         {
           remote: "github",
-          repository: "helicone/helicone",
+          repository: `${owner}/${repo}`,
           branch: "main",
         },
       ],
@@ -143,13 +143,23 @@ async function generateChangelog(diffs: string[]): Promise<string> {
   }
 }
 
-export async function generateChangelogForGreptileDocs() {
+export async function generateChangelogForGreptileDocs(url: string) {
+
+  const tokens = url.split('/');
+  const repo = tokens.pop();
+  const owner = tokens.pop();
+
+  if(!repo || !owner){
+    return;
+  }
+
   try {
     const repoDiffResult = await getRepoDiff(
-      "https://github.com/helicone/helicone",
-      2
+      `https://github.com/${owner}/${repo}`,
+      30
     );
-    const changelog = await generateChangelog(repoDiffResult.diffs);
+    console.log(repoDiffResult.diffs);
+    const changelog = await generateChangelog(repoDiffResult.diffs, repo, owner);
     return changelog;
   } catch (error) {
     console.error("Error generating changelog for greptileai/docs:", error);

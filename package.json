@@ -1,0 +1,8 @@
+{
+  "name": "changelog-plus-plus",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hahnbeelee/changelog-plus-plus.git",
+  "author": "Hahnbee Lee <55263191+hahnbeelee@users.noreply.github.com>",
+  "license": "MIT"
+}

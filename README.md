@@ -11,3 +11,10 @@ Team is:
 - [Marcella dePunzio](https://www.linkedin.com/in/depunzio/)
 
 ![photo](MintlifyHacathon.png) 
+
+
+## Guide
+
+1. Clone repo
+2. `cd frontend && npm i && npm run dev` or `cd frontend && bun i && bun dev`
+3. Enjoy
